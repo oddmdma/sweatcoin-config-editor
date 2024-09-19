@@ -1,36 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, {useState} from 'react';
+import {Button, Checkbox, Container, Flex, Heading, Section, Text, TextField} from '@radix-ui/themes';
 
+import {ClipboardCopyIcon} from '@radix-ui/react-icons'
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const [formData, setFormData] = useState({
+		started_at: 1726617600,
+		finish_at: 1726876800,
+		total: 3,
+		useDummyData: false,
+		push_notification_showing_hours: 15,
+		push_notification_showing_minutes: 0,
+		use_push_notification: true,
+	});
+	
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const {name, value, type, checked} = e.target;
+		setFormData({
+			...formData,
+			[name]: type === 'checkbox' ? checked : value,
+		});
+	};
+	
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log(formData);
+	};
+	
+	return (
+		<Container px="8" size="3">
+			<Section size="3">
+				<Flex direction="column" gap="2">
+					
+					<Heading as="h1" mb="7">Boost Burst Config:</Heading>
+					<form onSubmit={handleSubmit}>
+						<Text>Started At:</Text>
+						<TextField.Root mb="5" type="datetime-local">
+							<TextField.Slot/>
+						</TextField.Root>
+						
+						<Text>Finish At:</Text>
+						<TextField.Root mb="5" type="datetime-local">
+							<TextField.Slot/>
+						</TextField.Root>
+						
+						<Text>Streak length:</Text>
+						<TextField.Root mb="5" type="number">
+							<TextField.Slot/>
+						</TextField.Root>
+						
+						<Flex gap="2" align="center">
+							<Text>Use Dummy Data:</Text>
+							<Checkbox defaultChecked={false}/>
+						</Flex>
+						
+						
+						<Button type="submit" my="5">
+							<ClipboardCopyIcon/>
+							Copy to Clipboard
+						</Button>
+					</form>
+				</Flex>
+			</Section>
+		</Container>
+	);
 }
 
-export default App
+export default App;
