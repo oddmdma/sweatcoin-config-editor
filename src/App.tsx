@@ -34,24 +34,41 @@ function App() {
 					
 					<Heading as="h1" mb="7">Boost Burst Config:</Heading>
 					<form onSubmit={handleSubmit}>
-						<Text>Started At:</Text>
-						<TextField.Root mb="5" type="datetime-local">
-							<TextField.Slot/>
-						</TextField.Root>
+						<Flex gap="1" direction="column" mb="5">
+							<Text size="2">Started At:</Text>
+							<TextField.Root type="datetime-local">
+								<TextField.Slot/>
+							</TextField.Root>
+						</Flex>
 						
-						<Text>Finish At:</Text>
-						<TextField.Root mb="5" type="datetime-local">
-							<TextField.Slot/>
-						</TextField.Root>
+						<Flex gap="1" direction="column" mb="5">
+							<Text size="2">Finish At:</Text>
+							<TextField.Root type="datetime-local">
+								<TextField.Slot/>
+							</TextField.Root>
+						</Flex>
 						
-						<Text>Streak length:</Text>
-						<TextField.Root mb="5" type="number">
-							<TextField.Slot/>
-						</TextField.Root>
+						<Flex gap="1" direction="column" mb="5">
+							<Text size="2">Streak length:</Text>
+							<TextField.Root type="number">
+								<TextField.Slot/>
+							</TextField.Root>
+						</Flex>
 						
-						<Flex gap="2" align="center">
-							<Text>Use Dummy Data:</Text>
-							<Checkbox defaultChecked={false}/>
+						<Flex gap="1" direction="column" mb="5">
+							<Text as="label" size="2">
+								<Flex gap="2">
+									<Checkbox defaultChecked={false}/>
+									Use Dummy Data
+								</Flex>
+							</Text>
+						</Flex>
+						
+						<Flex gap="1" direction="column" mb="5">
+							<Text size="2">Push Notification Showing Time:</Text>
+							<TextField.Root type="time">
+								<TextField.Slot/>
+							</TextField.Root>
 						</Flex>
 						
 						
