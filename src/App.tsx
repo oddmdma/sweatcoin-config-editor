@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Checkbox, Container, Flex, Heading, Section, Text, TextField} from '@radix-ui/themes';
-
-import {ClipboardCopyIcon} from '@radix-ui/react-icons'
+import {ClipboardCopyIcon} from '@radix-ui/react-icons';
 
 function App() {
 	const [formData, setFormData] = useState({
@@ -27,30 +26,39 @@ function App() {
 		console.log(formData);
 	};
 	
+	const handleCopyToClipboard = () => {
+		const dataToCopy = JSON.stringify(formData, null, 2);
+		navigator.clipboard.writeText(dataToCopy).then(() => {
+			alert('Data copied to clipboard!');
+		}).catch(err => {
+			console.error('Failed to copy data: ', err);
+		});
+	};
+	
 	return (
-		<Container px="8" size="3">
+		<Container px="8" size="3" width="100%">
 			<Section size="3">
 				<Flex direction="column" gap="2">
-					
 					<Heading as="h1" mb="7">Boost Burst Config:</Heading>
 					<form onSubmit={handleSubmit}>
 						<Flex gap="1" direction="column" mb="5">
 							<Text size="2">Started At:</Text>
-							<TextField.Root type="datetime-local">
+							<TextField.Root type="datetime-local" name="started_at" value={formData.started_at}
+															onChange={handleChange}>
 								<TextField.Slot/>
 							</TextField.Root>
 						</Flex>
 						
 						<Flex gap="1" direction="column" mb="5">
 							<Text size="2">Finish At:</Text>
-							<TextField.Root type="datetime-local">
+							<TextField.Root type="datetime-local" name="finish_at" value={formData.finish_at} onChange={handleChange}>
 								<TextField.Slot/>
 							</TextField.Root>
 						</Flex>
 						
 						<Flex gap="1" direction="column" mb="5">
 							<Text size="2">Streak length:</Text>
-							<TextField.Root type="number">
+							<TextField.Root type="number" name="total" value={formData.total} onChange={handleChange}>
 								<TextField.Slot/>
 							</TextField.Root>
 						</Flex>
@@ -58,7 +66,7 @@ function App() {
 						<Flex gap="1" direction="column" mb="5">
 							<Text as="label" size="2">
 								<Flex gap="2">
-									<Checkbox defaultChecked={false}/>
+									<Checkbox name="useDummyData" checked={formData.useDummyData} onChange={handleChange}/>
 									Use Dummy Data
 								</Flex>
 							</Text>
@@ -66,13 +74,13 @@ function App() {
 						
 						<Flex gap="1" direction="column" mb="5">
 							<Text size="2">Push Notification Showing Time:</Text>
-							<TextField.Root type="time">
+							<TextField.Root type="time" name="push_notification_showing_hours"
+															value={formData.push_notification_showing_hours} onChange={handleChange}>
 								<TextField.Slot/>
 							</TextField.Root>
 						</Flex>
 						
-						
-						<Button type="submit" my="5">
+						<Button type="button" my="5" onClick={handleCopyToClipboard}>
 							<ClipboardCopyIcon/>
 							Copy to Clipboard
 						</Button>
