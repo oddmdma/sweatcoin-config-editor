@@ -1,33 +1,37 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Checkbox, Container, Flex, Heading, Section, Text, TextField} from '@radix-ui/themes';
 import {ClipboardCopyIcon} from '@radix-ui/react-icons';
 
 function App() {
 	const [formData, setFormData] = useState({
-		started_at: 1726617600,
-		finish_at: 1726876800,
+		started_at: "2024-09-10T00:00",  // Use string in ISO 8601 format for datetime-local
+		finish_at: "2024-09-13T00:00",
 		total: 3,
 		useDummyData: false,
-		push_notification_showing_hours: 15,
-		push_notification_showing_minutes: 0,
+		push_notification_showing_hours: "15:00",  // Use string "HH:MM" for time field
 		use_push_notification: true,
 	});
+	
+	// Load data from local storage
+	useEffect(() => {
+		const savedData = localStorage.getItem('formData');
+		if (savedData) {
+			setFormData(JSON.parse(savedData));
+		}
+	}, []);
 	
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const {name, value, type, checked} = e.target;
 		setFormData({
 			...formData,
-			[name]: type === 'checkbox' ? checked : value,
+			[name]: type === 'checkbox' ? checked : (type === 'number' ? Number(value) : value),  // Converting numeric values
 		});
 	};
 	
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		console.log(formData);
-	};
 	
 	const handleCopyToClipboard = () => {
 		const dataToCopy = JSON.stringify(formData, null, 2);
+		localStorage.setItem('formData', JSON.stringify(formData));
 		navigator.clipboard.writeText(dataToCopy).then(() => {
 			alert('Data copied to clipboard!');
 		}).catch(err => {
@@ -40,7 +44,7 @@ function App() {
 			<Section size="3">
 				<Flex direction="column" gap="2">
 					<Heading as="h1" mb="7">Boost Burst Config:</Heading>
-					<form onSubmit={handleSubmit}>
+					<form onSubmit={e => e.preventDefault()}>
 						<Flex gap="1" direction="column" mb="5">
 							<Text size="2">Started At:</Text>
 							<TextField.Root type="datetime-local" name="started_at" value={formData.started_at}
