@@ -10,7 +10,7 @@ type TextFieldProps = {
 };
 
 export const TextField = ({label, type, name, value, onChange}: TextFieldProps) => (
-	<Flex gap="1" direction="column" mb="5">
+	<Flex gap="1" direction="column" mb="5" width="220px">
 		<Text size="2">{label}</Text>
 		<RadixTextField.Root type={type} name={name} value={value} onChange={onChange}>
 			<RadixTextField.Slot/>

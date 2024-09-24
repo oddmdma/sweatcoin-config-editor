@@ -21,6 +21,7 @@ export const mapFormData = (formData: FormData) => {
 		use_push_notification,
 		useDummyData,
 		auction_id: auction_id || null,
+		dummyData: formData.dummyData
 	};
 }
 
