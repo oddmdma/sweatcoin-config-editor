@@ -132,13 +132,16 @@ const App = () => {
 									checked={formData.use_push_notification}
 									onChange={handleChange}
 								/>
-								<TextField
-									label="Push Notification Showing Time:"
-									type="time"
-									name="push_notification_showing_hours"
-									value={formData.push_notification_showing_hours}
-									onChange={handleChange}
-								/>
+								{
+									formData.use_push_notification &&
+                  <TextField
+                    label="Push Notification Showing Time:"
+                    type="time"
+                    name="push_notification_showing_hours"
+                    value={formData.push_notification_showing_hours}
+                    onChange={handleChange}
+                  />
+								}
 								<TextField
 									label="Auction id:"
 									type="number"
