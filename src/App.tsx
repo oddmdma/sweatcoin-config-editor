@@ -79,7 +79,7 @@ const App = () => {
 	};
 	
 	const handleCopyToClipboard = () => {
-		const dataToCopy = JSON.stringify(formData, null, 2);
+		const dataToCopy = JSON.stringify(mapFormData(formData), null, 2);
 		saveToLocalStorage();
 		navigator.clipboard.writeText(dataToCopy)
 			.then(() => alert('Data copied to clipboard!'))
