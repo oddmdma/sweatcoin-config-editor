@@ -12,7 +12,7 @@ const INITIAL_FORM_DATA: FormData = {
 	total: 3,
 	useDummyData: false,
 	push_notification_showing_hours: "15:00",
-	use_push_notification: true,
+	use_push_notification: false,
 	auction_id: null,
 	dummyData: {exercises: []}
 };
@@ -124,6 +124,12 @@ const App = () => {
 									label="Use Dummy Data"
 									name="useDummyData"
 									checked={formData.useDummyData}
+									onChange={handleChange}
+								/>
+								<Checkbox
+									label="Use Push Notification"
+									name="use_push_notification"
+									checked={formData.use_push_notification}
 									onChange={handleChange}
 								/>
 								<TextField
