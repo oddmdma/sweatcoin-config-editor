@@ -137,6 +137,13 @@ export const BrandedBoost = () => {
 									onChange={handleChange}
 								/>
 								<TextField
+									label="Circle Screen Logo Link:"
+									type="text"
+									name="circleScreenLogoLink"
+									value={config.circleScreenLogoLink || ''}
+									onChange={handleChange}
+								/>
+								<TextField
 									label="Boost Screen Logo Link:"
 									type="text"
 									name="boostScreenLogoLink"
