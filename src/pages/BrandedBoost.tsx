@@ -1,5 +1,5 @@
 import {ChangeEvent, useEffect, useState} from 'react';
-import {Box, Button, Container, Flex, Heading, Section, Text} from '@radix-ui/themes';
+import {Box, Button, Card, Container, Flex, Heading, Section, Text} from '@radix-ui/themes';
 import {TextField} from '../components/TextField';
 import {BrandedBoostConfig, LearningData} from '../types';
 import {ClipboardCopyIcon} from "@radix-ui/react-icons";
@@ -109,7 +109,7 @@ export const BrandedBoost = () => {
 	};
 	
 	const handleCopyToClipboard = () => {
-		const dataToCopy = JSON.stringify(mapBrandedBoostConfig(config), null, 2);
+		const dataToCopy = JSON.stringify(mapBrandedBoostConfig(config, learningData), null, 2);
 		saveToLocalStorage();
 		navigator.clipboard.writeText(dataToCopy)
 			.then(() => alert('Data copied to clipboard!'))
@@ -249,7 +249,7 @@ export const BrandedBoost = () => {
 											/>
 											<Heading as="h3" mb="3" size="3">Sections:</Heading>
 											{learningData.sections.map((section, sectionIndex) => (
-												<div key={sectionIndex}>
+												<Card key={sectionIndex} mb="5" variant={"surface"}>
 													<TextField
 														label="Section Title:"
 														type="text"
@@ -257,16 +257,19 @@ export const BrandedBoost = () => {
 														value={section.title}
 														onChange={(e) => handleSectionChange(sectionIndex, e)}
 													/>
-													<Flex gap="2" my={"4"}>
-														<Button type="button" onClick={() => handleAddArticle(sectionIndex)} variant={"outline"}>
-															Add Article
-														</Button>
-														<Button type="button" onClick={() => handleRemoveSection(sectionIndex)} variant={"outline"}>
+													<Flex gap="2" my={"2"} direction={"column"}>
+														<Button type="button" onClick={() => handleRemoveSection(sectionIndex)}
+																		variant={"outline"}
+																		color={"red"}>
 															Remove Section
+														</Button>
+														<Button type="button" onClick={() => handleAddArticle(sectionIndex)} variant={"outline"}
+																		color={"green"}>
+															Add Article
 														</Button>
 													</Flex>
 													{section.articles.map((article, articleIndex) => (
-														<div key={articleIndex}>
+														<Card key={articleIndex} mb="2">
 															<TextField
 																label="Article Image Link:"
 																type="text"
@@ -288,17 +291,21 @@ export const BrandedBoost = () => {
 																value={article.url}
 																onChange={(e) => handleArticleChange(sectionIndex, articleIndex, e)}
 															/>
-															<Button type="button" onClick={() => handleRemoveArticle(sectionIndex, articleIndex)}
-																			variant={"outline"} my={"2"}>
-																Remove Article
-															</Button>
-														</div>
+															<Flex gap="2" my={"2"} direction={"column"}>
+																<Button type="button" onClick={() => handleRemoveArticle(sectionIndex, articleIndex)}
+																				variant={"outline"} my={"2"} color={"red"}>
+																	Remove Article
+																</Button>
+															</Flex>
+														</Card>
 													))}
-												</div>
+												</Card>
 											))}
-											<Button type="button" onClick={handleAddSection} variant={"outline"} color={"green"}>
-												Add Section
-											</Button>
+											<Flex gap="2" my={"2"} direction={"column"}>
+												<Button type="button" onClick={handleAddSection} variant={"outline"} color={"green"}>
+													Add Section
+												</Button>
+											</Flex>
 										</>
 									)}
 								</Box>
@@ -313,7 +320,7 @@ export const BrandedBoost = () => {
 					<Section size="1">
 						<Heading as="h3" mb="3" size="3">Mapped Data:</Heading>
 						<Text size="1">
-							<JSONBeautifier data={mapBrandedBoostConfig(config)}/>
+							<JSONBeautifier data={mapBrandedBoostConfig(config, learningData)}/>
 						</Text>
 					</Section>
 				</Flex>
@@ -321,7 +328,7 @@ export const BrandedBoost = () => {
 		</Container>
 	);
 	
-	function mapBrandedBoostConfig(config: BrandedBoostConfig) {
+	function mapBrandedBoostConfig(config: BrandedBoostConfig, learningData: LearningData) {
 		return {
 			id: config.id || '',
 			circleScreenLogoLink: config.circleScreenLogoLink,
@@ -332,7 +339,7 @@ export const BrandedBoost = () => {
 			boostScreenTitle: config.boostScreenTitle || '',
 			contentTitle: config.contentTitle || '',
 			contentDescription: config.contentDescription || '',
-			contentData: config.contentData || null,
+			contentData: config.contentData !== undefined ? learningData : null,
 			circleScreenAnimationDelayMs: config.circleScreenAnimationDelayMs,
 			campaignStartDate: config.campaignStartDate ? new Date(config.campaignStartDate).getTime() / 1000 : null,
 			campaignEndDate: config.campaignEndDate ? new Date(config.campaignEndDate).getTime() / 1000 : null,
