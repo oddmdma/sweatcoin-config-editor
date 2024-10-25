@@ -5,7 +5,7 @@ export interface LearningArticle {
 	video?: boolean
 }
 
-interface LearningSection {
+export interface LearningSection {
 	title: string
 	articles: LearningArticle[]
 }
@@ -27,8 +27,8 @@ export interface BrandedBoostConfig {
 	contentDescription?: string
 	contentData?: LearningData
 	circleScreenAnimationDelayMs?: number
-	campaignStartDate?: number
-	campaignEndDate?: number
+	campaignStartDate?: number | string
+	campaignEndDate?: number | string
 }
 
 

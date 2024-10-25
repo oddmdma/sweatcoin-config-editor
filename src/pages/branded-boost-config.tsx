@@ -1,8 +1,9 @@
 import {ChangeEvent, useEffect, useState} from 'react';
-import {Button, Container, Flex, Heading, Section, Text} from '@radix-ui/themes';
+import {Box, Button, Container, Flex, Heading, Section, Text} from '@radix-ui/themes';
 import {TextField} from '../components/TextField';
-import {BrandedBoostConfig} from '../types';
+import {BrandedBoostConfig, LearningData} from '../types';
 import {ClipboardCopyIcon} from "@radix-ui/react-icons";
+import {Checkbox} from "../components/Checkbox";
 
 const INITIAL_CONFIG: BrandedBoostConfig = {
 	id: '',
@@ -16,14 +17,20 @@ const INITIAL_CONFIG: BrandedBoostConfig = {
 	contentDescription: '',
 	contentData: undefined,
 	circleScreenAnimationDelayMs: 0,
-	campaignStartDate: 0,
-	campaignEndDate: 0,
+	campaignStartDate: "2024-09-10T00:00",
+	campaignEndDate: "2024-09-13T00:00",
+};
+
+const INITIAL_LEARNING_DATA: LearningData = {
+	featured: {image: '', title: '', url: ''},
+	sections: []
 };
 
 const LOCAL_STORAGE_KEY = 'brandedBoost';
 
 export const BrandedBoostConfigEditor = () => {
 	const [config, setConfig] = useState<BrandedBoostConfig>(INITIAL_CONFIG);
+	const [learningData, setLearningData] = useState<LearningData>(INITIAL_LEARNING_DATA);
 	
 	useEffect(() => {
 		const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -38,6 +45,66 @@ export const BrandedBoostConfigEditor = () => {
 			...prevConfig,
 			[name]: type === 'checkbox' ? checked : (type === 'number' ? Number(value) : value),
 		}));
+	};
+	
+	const handleLearningDataChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const {name, value} = e.target;
+		setLearningData(prevData => ({
+			...prevData,
+			featured: {
+				...prevData.featured,
+				[name]: value
+			}
+		}));
+	};
+	
+	const handleAddSection = () => {
+		setLearningData(prevData => ({
+			...prevData,
+			sections: [...prevData.sections, {title: '', articles: []}]
+		}));
+	};
+	
+	const handleRemoveSection = (index: number) => {
+		setLearningData(prevData => {
+			const sections = [...prevData.sections];
+			sections.splice(index, 1);
+			return {...prevData, sections};
+		});
+	};
+	
+	const handleSectionChange = (index: number, e: ChangeEvent<HTMLInputElement>) => {
+		const {name, value} = e.target;
+		setLearningData(prevData => {
+			const sections = [...prevData.sections];
+			sections[index] = {...sections[index], [name]: value};
+			return {...prevData, sections};
+		});
+	};
+	
+	const handleAddArticle = (sectionIndex: number) => {
+		setLearningData(prevData => {
+			const sections = [...prevData.sections];
+			sections[sectionIndex].articles.push({image: '', title: '', url: ''});
+			return {...prevData, sections};
+		});
+	};
+	
+	const handleRemoveArticle = (sectionIndex: number, articleIndex: number) => {
+		setLearningData(prevData => {
+			const sections = [...prevData.sections];
+			sections[sectionIndex].articles.splice(articleIndex, 1);
+			return {...prevData, sections};
+		});
+	};
+	
+	const handleArticleChange = (sectionIndex: number, articleIndex: number, e: ChangeEvent<HTMLInputElement>) => {
+		const {name, value} = e.target;
+		setLearningData(prevData => {
+			const sections = [...prevData.sections];
+			sections[sectionIndex].articles[articleIndex] = {...sections[sectionIndex].articles[articleIndex], [name]: value};
+			return {...prevData, sections};
+		});
 	};
 	
 	const handleCopyToClipboard = () => {
@@ -128,17 +195,106 @@ export const BrandedBoostConfigEditor = () => {
 									label="Campaign Start Date:"
 									type="datetime-local"
 									name="campaignStartDate"
-									value={config.campaignStartDate ? new Date(config.campaignStartDate).toISOString().slice(0, -1) : ''}
+									value={config.campaignStartDate || ''}
 									onChange={handleChange}
 								/>
 								<TextField
 									label="Campaign End Date:"
 									type="datetime-local"
 									name="campaignEndDate"
-									value={config.campaignEndDate ? new Date(config.campaignEndDate).toISOString().slice(0, -1) : ''}
+									value={config.campaignEndDate || ''}
 									onChange={handleChange}
 								/>
-								<Button type="button" my="3" onClick={handleCopyToClipboard}>
+								<Checkbox
+									label="Content Data"
+									name="contentData"
+									checked={!!config.contentData}
+									onChange={(e) => setConfig(prevConfig => ({
+										...prevConfig,
+										contentData: e.target.checked ? INITIAL_LEARNING_DATA : undefined
+									}))}
+								/>
+								<Box>
+									{config.contentData && (
+										<>
+											<Heading as="h3" mb="3" size="3">Featured Item:</Heading>
+											<TextField
+												label="Featured Image:"
+												type="text"
+												name="image"
+												value={learningData.featured.image}
+												onChange={handleLearningDataChange}
+											/>
+											<TextField
+												label="Featured Title:"
+												type="text"
+												name="title"
+												value={learningData.featured.title}
+												onChange={handleLearningDataChange}
+											/>
+											<TextField
+												label="Featured URL:"
+												type="text"
+												name="url"
+												value={learningData.featured.url}
+												onChange={handleLearningDataChange}
+											/>
+											<Heading as="h3" mb="3" size="3">Sections:</Heading>
+											{learningData.sections.map((section, sectionIndex) => (
+												<div key={sectionIndex}>
+													<TextField
+														label="Section Title:"
+														type="text"
+														name="title"
+														value={section.title}
+														onChange={(e) => handleSectionChange(sectionIndex, e)}
+													/>
+													<Flex gap="2" my={"4"}>
+														<Button type="button" onClick={() => handleAddArticle(sectionIndex)} variant={"outline"}>
+															Add Article
+														</Button>
+														<Button type="button" onClick={() => handleRemoveSection(sectionIndex)} variant={"outline"}>
+															Remove Section
+														</Button>
+													</Flex>
+													{section.articles.map((article, articleIndex) => (
+														<div key={articleIndex}>
+															<TextField
+																label="Article Image:"
+																type="text"
+																name="image"
+																value={article.image}
+																onChange={(e) => handleArticleChange(sectionIndex, articleIndex, e)}
+															/>
+															<TextField
+																label="Article Title:"
+																type="text"
+																name="title"
+																value={article.title}
+																onChange={(e) => handleArticleChange(sectionIndex, articleIndex, e)}
+															/>
+															<TextField
+																label="Article URL:"
+																type="text"
+																name="url"
+																value={article.url}
+																onChange={(e) => handleArticleChange(sectionIndex, articleIndex, e)}
+															/>
+															<Button type="button" onClick={() => handleRemoveArticle(sectionIndex, articleIndex)}
+																			variant={"outline"}>
+																Remove Article
+															</Button>
+														</div>
+													))}
+												</div>
+											))}
+											<Button type="button" onClick={handleAddSection} variant={"outline"} color={"green"}>
+												Add Section
+											</Button>
+										</>
+									)}
+								</Box>
+								<Button type="button" my="7" onClick={handleCopyToClipboard} color={"green"}>
 									<ClipboardCopyIcon/>
 									Copy to Clipboard
 								</Button>
