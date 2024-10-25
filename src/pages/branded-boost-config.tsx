@@ -4,6 +4,7 @@ import {TextField} from '../components/TextField';
 import {BrandedBoostConfig, LearningData} from '../types';
 import {ClipboardCopyIcon} from "@radix-ui/react-icons";
 import {Checkbox} from "../components/Checkbox";
+import {JSONBeautifier} from "../components/JSONBeautifier";
 
 const INITIAL_CONFIG: BrandedBoostConfig = {
 	id: '',
@@ -120,7 +121,7 @@ export const BrandedBoostConfigEditor = () => {
 	}
 	
 	return (
-		<Container px="8" size="3" width="100%">
+		<Container px="8" size="4">
 			<Section size="1">
 				<Heading as="h1" mb="7">Branded Boost Config Editor</Heading>
 				<Flex gap="5">
@@ -305,7 +306,7 @@ export const BrandedBoostConfigEditor = () => {
 					<Section size="1">
 						<Heading as="h3" mb="3" size="3">Mapped Data:</Heading>
 						<Text size="1">
-							<pre>{JSON.stringify(mapBrandedBoostConfig(config), null, 2)}</pre>
+							<JSONBeautifier data={mapBrandedBoostConfig(config)}/>
 						</Text>
 					</Section>
 				</Flex>
