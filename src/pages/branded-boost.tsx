@@ -29,7 +29,7 @@ const INITIAL_LEARNING_DATA: LearningData = {
 
 const LOCAL_STORAGE_KEY = 'brandedBoost';
 
-export const BrandedBoostConfigEditor = () => {
+export const BrandedBoost = () => {
 	const [config, setConfig] = useState<BrandedBoostConfig>(INITIAL_CONFIG);
 	const [learningData, setLearningData] = useState<LearningData>(INITIAL_LEARNING_DATA);
 	

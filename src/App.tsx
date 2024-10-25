@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {BoostBurst} from "./pages/boost-burst";
-import {BrandedBoostConfigEditor} from "./pages/branded-boost-config";
+import {BrandedBoost} from "./pages/branded-boost";
 
 const BASE_URL = '/sweatcoin-config-editor'
 
@@ -9,7 +9,7 @@ const App = () => {
 		<Router>
 			<Routes>
 				<Route path={`${BASE_URL}/boost-burst`} element={<BoostBurst/>}/>
-				<Route path={`${BASE_URL}/branded-boost-config`} element={<BrandedBoostConfigEditor/>}/>
+				<Route path={`${BASE_URL}/branded-boost`} element={<BrandedBoost/>}/>
 			</Routes>
 		</Router>
 	)
