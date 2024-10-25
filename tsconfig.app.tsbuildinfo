@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/types.ts","./src/utils.ts","./src/vite-env.d.ts","./src/components/checkbox.tsx","./src/components/jsonbeautifier.tsx","./src/components/textfield.tsx","./src/pages/boost-burst.tsx","./src/pages/branded-boost-config.tsx"],"version":"5.6.2"}
+{"root":["./src/app.tsx","./src/main.tsx","./src/types.ts","./src/utils.ts","./src/vite-env.d.ts","./src/components/checkbox.tsx","./src/components/jsonbeautifier.tsx","./src/components/textfield.tsx","./src/pages/boost-burst.tsx","./src/pages/branded-boost.tsx"],"version":"5.6.2"}
