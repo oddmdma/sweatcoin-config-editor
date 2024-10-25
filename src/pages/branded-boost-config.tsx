@@ -219,7 +219,7 @@ export const BrandedBoostConfigEditor = () => {
 										<>
 											<Heading as="h3" mb="3" size="3">Featured Item:</Heading>
 											<TextField
-												label="Featured Image:"
+												label="Featured Image Link:"
 												type="text"
 												name="image"
 												value={learningData.featured.image}
@@ -260,7 +260,7 @@ export const BrandedBoostConfigEditor = () => {
 													{section.articles.map((article, articleIndex) => (
 														<div key={articleIndex}>
 															<TextField
-																label="Article Image:"
+																label="Article Image Link:"
 																type="text"
 																name="image"
 																value={article.image}
