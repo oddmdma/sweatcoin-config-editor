@@ -1,23 +1,35 @@
-// {
-//   "started_at": "2024-09-10T00:00",
-//   "finish_at": "2024-09-13T00:00",
-//   "total": 3,
-//   "push_notification_showing_hours": "17:00",
-//   "use_push_notification": true,
-//   "useDummyData": false
-// }
+export interface LearningArticle {
+	image: string
+	title: string
+	url: string
+	video?: boolean
+}
 
+interface LearningSection {
+	title: string
+	articles: LearningArticle[]
+}
 
-//export interface BoostBurstConfig {
-//   started_at: number
-//   finish_at: number
-//   total: number
-//   useDummyData?: boolean
-//   use_push_notification?: boolean
-//   push_notification_showing_hours?: number
-//   push_notification_showing_minutes?: number
-//   auction_id?: number
-// }
+export interface LearningData {
+	featured: LearningArticle
+	sections: LearningSection[]
+}
+
+export interface BrandedBoostConfig {
+	id?: string
+	circleScreenLogoLink: string
+	boostScreenLogoLink: string
+	boostScreenLogoHeight?: number
+	todayBlockTitle?: string
+	todayBlockLogoHeight?: number
+	boostScreenTitle?: string
+	contentTitle?: string
+	contentDescription?: string
+	contentData?: LearningData
+	circleScreenAnimationDelayMs?: number
+	campaignStartDate?: number
+	campaignEndDate?: number
+}
 
 
 export interface FormData {
