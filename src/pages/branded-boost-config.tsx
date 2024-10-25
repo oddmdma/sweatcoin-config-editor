@@ -281,7 +281,7 @@ export const BrandedBoostConfigEditor = () => {
 																onChange={(e) => handleArticleChange(sectionIndex, articleIndex, e)}
 															/>
 															<Button type="button" onClick={() => handleRemoveArticle(sectionIndex, articleIndex)}
-																			variant={"outline"}>
+																			variant={"outline"} my={"2"}>
 																Remove Article
 															</Button>
 														</div>
